@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    volumes:
+      - postgresqldata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - metric_network
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - metric_network
+    volumes:
+      - redisdata:/data
+
+volumes:
+  postgresqldata:
+  redisdata:
+
+networks:
+  metric_network:
+    driver: bridge
+    name: metric_network
