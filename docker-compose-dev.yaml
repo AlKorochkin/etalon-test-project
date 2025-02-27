@@ -37,7 +37,11 @@ services:
       - .env
     depends_on:
       - postgres
-    command: bash -c 'cd src/ && uvicorn main:app --host 0.0.0.0 --port 8000 --reload --log-level debug'
+    environment:
+      - POSTGRES_SERVER=postgres
+    networks:
+      - metric_network
+    command: bash -c 'cd src/ && uvicorn main:app --host 0.0.0.0 --port 8000 --log-level debug'
 
 volumes:
   postgresqldata:
