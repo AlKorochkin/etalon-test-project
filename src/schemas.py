@@ -1,9 +1,16 @@
-from dataclasses import dataclass
-from enum import Enum
-from typing import Optional, List
 import uuid
-from pydantic import UUID4, BaseModel, Field
+from dataclasses import dataclass
+from typing import Optional, List
+from pydantic import BaseModel, Field
 from fastapi_users import schemas
+
+
+class WeatherBase(BaseModel):
+    temp: float | None
+    temp_min: float | None
+    temp_max: float | None
+    pressure: int | None
+
 
 
 class ProjectBase(BaseModel):
@@ -17,6 +24,7 @@ class ProjectCreate(ProjectBase):
 
 class ProjectRead(ProjectBase):
     id: int
+    weather: WeatherBase
 
     class Config:
         from_attributes = True
@@ -55,20 +63,15 @@ class INNPattern:
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    fio: str
+    fullname: str
     email_notify: bool
 
 
 class UserCreate(schemas.BaseUserCreate):
-    fio: str = Field(
+    fullname: str = Field(
         min_length=FIOPattern.min_len,
         max_length=FIOPattern.max_len,
         pattern=FIOPattern.regex,
-    )
-    inn: str = Field(
-        min_length=INNPattern.min_len,
-        max_length=INNPattern.max_len,
-        pattern=INNPattern.regex,
     )
     password: str = Field(
         min_length=PasswordPattern.min_len,
@@ -78,15 +81,10 @@ class UserCreate(schemas.BaseUserCreate):
 
 
 class UserUpdate(schemas.CreateUpdateDictModel):
-    fio: str = Field(
+    fullname: str = Field(
         min_length=FIOPattern.min_len,
         max_length=FIOPattern.max_len,
         pattern=FIOPattern.regex,
-    )
-    inn: str = Field(
-        min_length=INNPattern.min_len,
-        max_length=INNPattern.max_len,
-        pattern=INNPattern.regex,
     )
     email_notify: Optional[bool] = False
 

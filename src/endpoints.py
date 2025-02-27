@@ -1,22 +1,18 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi_users import models, exceptions
-from fastapi_users.manager import BaseUserManager
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from cruds import (
     create_user_project,
-    delete_user_project,
-    get_user_project_by_id,
     get_user_project_by_name,
     get_user_projects,
-    projects_has_same_name,
 )
 from db import get_async_session
 from models import User
 from schemas import ProjectCreate, ProjectRead, ProjectsRead
-from auth import current_active_user, settings, get_user_manager
+from auth import current_active_user
+from utils import get_weather_data
 
 projects_router = APIRouter()
 
@@ -37,7 +33,19 @@ async def get_projects(
     user: User = Depends(current_active_user),
 ):
     projects = await get_user_projects(db, user.id)
-    return ProjectsRead(projects=projects)
+
+    projects_with_weather = []
+    for project in projects:
+        weather = await get_weather_data(project.location)
+        project_read = ProjectRead(
+            id=project.id,
+            name=project.name,
+            location=project.location,
+            weather=weather
+        )
+        projects_with_weather.append(project_read)
+
+    return ProjectsRead(projects=projects_with_weather)
 
 
 @projects_router.post(
