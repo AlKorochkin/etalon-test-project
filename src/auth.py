@@ -22,9 +22,9 @@ from fastapi_users.exceptions import (
 from fastapi_users.jwt import generate_jwt, decode_jwt
 from jwt import PyJWTError
 
-from config import settings
-from db import get_user_db
-from models import User
+from src.config import settings
+from src.db import get_user_db
+from src.models import User
 
 # from utils import send_email_async
 
@@ -36,7 +36,12 @@ logger = logging.getLogger(__name__)
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
-    # где-то здесь нужно переопределить метод для отправки письма
+    
+    async def on_after_register(self, user, request = None):
+        print(f'Пользователь {user.email} зарегистрировался')
+        # logger.debug(f'Пользователь {user.email} зарегистрировался')
+        
+    
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):

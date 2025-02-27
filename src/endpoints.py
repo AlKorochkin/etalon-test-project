@@ -5,7 +5,7 @@ from fastapi_users import models, exceptions
 from fastapi_users.manager import BaseUserManager
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from cruds import (
+from src.cruds import (
     create_user_project,
     delete_user_project,
     get_user_project_by_id,
@@ -13,10 +13,10 @@ from cruds import (
     get_user_projects,
     projects_has_same_name,
 )
-from db import get_async_session
-from models import User
-from schemas import ProjectCreate, ProjectRead, ProjectsRead
-from auth import current_active_user, settings, get_user_manager
+from src.db import get_async_session
+from src.models import User
+from src.schemas import ProjectCreate, ProjectRead, ProjectsRead
+from src.auth import current_active_user, settings, get_user_manager
 
 projects_router = APIRouter()
 

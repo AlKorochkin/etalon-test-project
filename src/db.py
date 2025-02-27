@@ -9,8 +9,8 @@ from sqlalchemy import Engine, create_engine, event
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from config import settings
-from models import User
+from src.config import settings
+from src.models import User
 
 SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
 ASYNC_SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace(

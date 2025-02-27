@@ -6,13 +6,13 @@ import shutil
 from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
 from fastapi.responses import JSONResponse
 
-from config import settings
-from db import get_db
-from models import User
-from endpoints import projects_router
-from schemas import UserRead, UserUpdate, UserCreate
+from src.config import settings
+from src.db import get_db
+from src.models import User
+from src.endpoints import projects_router
+from src.schemas import UserRead, UserUpdate, UserCreate
 
-from auth import current_active_user, fastapi_users, auth_backend
+from src.auth import current_active_user, fastapi_users, auth_backend
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +21,9 @@ logger = logging.getLogger(__name__)
 async def lifespan(app):
     current_dir = Path(__file__).parent
     env = current_dir.joinpath(".env")
+    print(env)
     if not env.exists():
-        shutil.copy(env.parents[1].joinpath("env.template"), "../.env")
+        shutil.copy(env.parents[1].joinpath(".env"), "../.env")
     yield
 
 

@@ -6,9 +6,9 @@ from sqlalchemy import and_, or_, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from models import Project
-from models import User
-from schemas import ProjectCreate
+from src.models import Project
+from src.models import User
+from src.schemas import ProjectCreate
 
 
 async def get_user_projects(db: AsyncSession, user_id: UUID):
