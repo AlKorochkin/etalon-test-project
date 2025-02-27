@@ -1,13 +1,11 @@
-from typing import List, Optional
+from typing import Optional
 from uuid import UUID
 
 from pydantic import UUID4
-from sqlalchemy import and_, or_, insert, select, update
+from sqlalchemy import and_, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from src.models import Project
-from src.models import User
 from src.schemas import ProjectCreate
 
 

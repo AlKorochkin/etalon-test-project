@@ -6,7 +6,6 @@ from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import (
     Boolean,
     DateTime,
-    Integer,
     MetaData,
     String,
     ForeignKey,

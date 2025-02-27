@@ -1,8 +1,7 @@
-from dataclasses import dataclass
-from enum import Enum
-from typing import Optional, List
 import uuid
-from pydantic import UUID4, BaseModel, Field
+from dataclasses import dataclass
+from typing import Optional, List
+from pydantic import BaseModel, Field
 from fastapi_users import schemas
 
 

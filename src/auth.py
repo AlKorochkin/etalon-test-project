@@ -1,26 +1,15 @@
 import logging
-from typing import Optional
 import uuid
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import Depends
 
-# from fastapi_mail.errors import ConnectionErrors
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
     CookieTransport,
     JWTStrategy,
-    BearerTransport,
     AuthenticationBackend,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
-from fastapi_users.exceptions import (
-    UserInactive,
-    InvalidVerifyToken,
-    UserNotExists,
-    InvalidID,
-)
-from fastapi_users.jwt import generate_jwt, decode_jwt
-from jwt import PyJWTError
 
 from src.config import settings
 from src.db import get_user_db
