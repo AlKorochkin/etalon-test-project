@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /etalon-test-project
 
 # Копируем только файлы зависимостей
-COPY requirements.txt etalon-test-project/
+COPY requirements.txt /etalon-test-project/
 
 # Устанавливаем зависимости
 RUN pip install -r requirements.txt
