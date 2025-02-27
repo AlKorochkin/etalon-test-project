@@ -72,7 +72,7 @@ def upgrade() -> None:
         session.flush()
         for i in range(1, 101):
             project = Project(
-                name=f"Project-{i}", location=f"Loc-{i}", owner_id=new_admin.id
+                name=f"Project-{i}", location=f"Moscow", owner_id=new_admin.id
             )
             session.add(project)
     session.commit()
