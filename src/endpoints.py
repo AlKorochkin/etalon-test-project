@@ -12,7 +12,7 @@ from db import get_async_session
 from models import User
 from schemas import ProjectCreate, ProjectRead, ProjectsRead
 from auth import current_active_user
-from utils import get_geodata
+from utils import get_weather_data
 
 projects_router = APIRouter()
 
@@ -33,20 +33,19 @@ async def get_projects(
     user: User = Depends(current_active_user),
 ):
     projects = await get_user_projects(db, user.id)
-    if projects:
-        print(projects)
-        for project in projects:
-            geo_data = await get_geodata(project.location)
-            if geo_data:
-                project["temp"] = round(geo_data['main']['temp'])
-                project["min_temp"] = round(geo_data['main']['temp'])
-                project["max_temp"] = round(geo_data['main']['temp'])
-                project["pressure"] = round(geo_data['main']['temp'])
-            else:
-                pass
 
+    projects_with_weather = []
+    for project in projects:
+        weather = await get_weather_data(project.location)
+        project_read = ProjectRead(
+            id=project.id,
+            name=project.name,
+            location=project.location,
+            weather=weather
+        )
+        projects_with_weather.append(project_read)
 
-    return ProjectsRead(projects=projects)
+    return ProjectsRead(projects=projects_with_weather)
 
 
 @projects_router.post(
