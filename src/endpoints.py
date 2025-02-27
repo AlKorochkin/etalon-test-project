@@ -36,7 +36,7 @@ async def get_projects(
 
     projects_with_weather = []
     for project in projects:
-        weather = None
+        weather = await get_weather_data(project.location)
         project_read = ProjectRead(
             id=project.id,
             name=project.name,

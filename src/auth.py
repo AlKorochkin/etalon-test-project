@@ -10,7 +10,6 @@ from fastapi_users.authentication import (
     AuthenticationBackend,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
-from fastapi import Request
 
 from config import settings
 from db import get_user_db
@@ -29,11 +28,14 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     
     async def on_after_register(self, user, request = None):
         print(f'Пользователь {user.email} зарегистрировался')
-        # logger.debug(f'Пользователь {user.email} зарегистрировался')
-    
+
 
     async def on_after_request_verify(self, user, token, request = None):
         print(token)
+
+
+    async def on_after_login(self, user, request = None, response = None):
+        print('Вошел пользователь', user.email)
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):

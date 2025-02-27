@@ -6,10 +6,10 @@ from fastapi_users import schemas
 
 
 class WeatherBase(BaseModel):
-    temp: float
-    temp_min: float
-    temp_max: float
-    pressure: int
+    temp: float | None
+    temp_min: float | None
+    temp_max: float | None
+    pressure: int | None
 
 
 
