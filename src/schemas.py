@@ -8,6 +8,10 @@ from fastapi_users import schemas
 class ProjectBase(BaseModel):
     name: str = Field(min_length=1, max_length=20)
     location: str = Field(min_length=1, max_length=100)
+    temp: int = None
+    max_temp: int = None
+    min_temp: int = None
+    pressure: int = None
 
 
 class ProjectCreate(ProjectBase):

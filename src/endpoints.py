@@ -3,15 +3,16 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.cruds import (
+from cruds import (
     create_user_project,
     get_user_project_by_name,
     get_user_projects,
 )
-from src.db import get_async_session
-from src.models import User
-from src.schemas import ProjectCreate, ProjectRead, ProjectsRead
-from src.auth import current_active_user
+from db import get_async_session
+from models import User
+from schemas import ProjectCreate, ProjectRead, ProjectsRead
+from auth import current_active_user
+from utils import get_geodata
 
 projects_router = APIRouter()
 
@@ -32,6 +33,19 @@ async def get_projects(
     user: User = Depends(current_active_user),
 ):
     projects = await get_user_projects(db, user.id)
+    if projects:
+        print(projects)
+        for project in projects:
+            geo_data = await get_geodata(project.location)
+            if geo_data:
+                project["temp"] = round(geo_data['main']['temp'])
+                project["min_temp"] = round(geo_data['main']['temp'])
+                project["max_temp"] = round(geo_data['main']['temp'])
+                project["pressure"] = round(geo_data['main']['temp'])
+            else:
+                pass
+
+
     return ProjectsRead(projects=projects)
 
 

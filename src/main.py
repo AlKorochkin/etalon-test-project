@@ -5,11 +5,11 @@ import shutil
 
 from fastapi import FastAPI
 
-from src.config import settings
-from src.endpoints import projects_router
-from src.schemas import UserRead, UserUpdate, UserCreate
+from config import settings
+from endpoints import projects_router
+from schemas import UserRead, UserUpdate, UserCreate
 
-from src.auth import fastapi_users, auth_backend
+from auth import fastapi_users, auth_backend
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app):
     current_dir = Path(__file__).parent
-    env = current_dir.joinpath(".env")
+    env = current_dir.parent.joinpath(".env")
     if not env.exists():
         shutil.copy(env.parents[1].joinpath(".env"), "../.env")
     yield

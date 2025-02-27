@@ -5,8 +5,8 @@ from pydantic import UUID4
 from sqlalchemy import and_, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.models import Project
-from src.schemas import ProjectCreate
+from models import Project
+from schemas import ProjectCreate
 
 
 async def get_user_projects(db: AsyncSession, user_id: UUID):
